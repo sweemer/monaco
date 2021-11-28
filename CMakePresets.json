@@ -4,25 +4,84 @@
         {
             "name": "base",
             "binaryDir": "${sourceDir}/build/${presetName}",
+            "generator": "Unix Makefiles",
             "hidden": true
         },
         {
-            "name": "linux-gcc-debug",
+            "name": "gcc",
+            "hidden": true,
             "inherits": "base",
-            "generator": "Unix Makefiles",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_CXX_COMPILER": "g++-11"
             }
-        }
+        },
         {
-            "name": "linux-nvhpc-debug",
+            "name": "nvhpc",
+            "hidden": true,
             "inherits": "base",
-            "generator": "Unix Makefiles",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_CXX_COMPILER": "nvc++",
-                "CMAKE_CXX_FLAGS": "-stdpar=gpu"
+                "CMAKE_CXX_COMPILER": "nvc++"
+            },
+            "environment": {
+                "CUDA_HOME": "/opt/nvidia/hpc_sdk/Linux_x86_64/21.9/cuda/11.4"
+            }
+        },
+        {
+            "name": "gpu",
+            "hidden": true,
+            "inherits": "nvhpc",
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS": "-fast -Minfo -stdpar=gpu"
+            }
+        },
+        {
+            "name": "multicore",
+            "hidden": true,
+            "inherits": "nvhpc",
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS": "-fast -Minfo -stdpar=multicore"
+            }
+        },
+        {
+            "name": "linux-gcc-debug",
+            "inherits": "gcc",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "linux-gcc-release",
+            "inherits": "gcc",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "linux-nvhpc-gpu-debug",
+            "inherits": "gpu",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "linux-nvhpc-gpu-release",
+            "inherits": "gpu",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "linux-nvhpc-multicore-debug",
+            "inherits": "multicore",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "linux-nvhpc-multicore-release",
+            "inherits": "multicore",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
             }
         }
     ],
@@ -32,8 +91,24 @@
             "configurePreset": "linux-gcc-debug"
         },
         {
-            "name": "linux-nvhpc-debug",
-            "configurePreset": "linux-nvhpc-debug"
+            "name": "linux-gcc-release",
+            "configurePreset": "linux-gcc-release"
+        },
+        {
+            "name": "linux-nvhpc-gpu-debug",
+            "configurePreset": "linux-nvhpc-gpu-debug"
+        },
+        {
+            "name": "linux-nvhpc-gpu-release",
+            "configurePreset": "linux-nvhpc-gpu-release"
+        },
+        {
+            "name": "linux-nvhpc-multicore-debug",
+            "configurePreset": "linux-nvhpc-multicore-debug"
+        },
+        {
+            "name": "linux-nvhpc-multicore-release",
+            "configurePreset": "linux-nvhpc-multicore-release"
         }
     ]
 }
