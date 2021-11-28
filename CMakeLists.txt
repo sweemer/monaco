@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.20.0)
+project(monaco LANGUAGES CXX)
+add_executable(monaco main.cpp)
+target_include_directories(monaco PRIVATE ${CMAKE_SOURCE_DIR})
+message("CXX_FLAGS: ${CXX_FLAGS}")
