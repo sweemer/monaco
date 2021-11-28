@@ -31,7 +31,7 @@
             "hidden": true,
             "inherits": "nvhpc",
             "cacheVariables": {
-                "CMAKE_CXX_FLAGS": "-fast -Minfo -stdpar=gpu"
+                "CMAKE_CXX_FLAGS": "-Minfo -stdpar=gpu"
             }
         },
         {
@@ -39,7 +39,7 @@
             "hidden": true,
             "inherits": "nvhpc",
             "cacheVariables": {
-                "CMAKE_CXX_FLAGS": "-fast -Minfo -stdpar=multicore"
+                "CMAKE_CXX_FLAGS": "-Minfo -stdpar=multicore"
             }
         },
         {
