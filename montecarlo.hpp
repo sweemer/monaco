@@ -32,7 +32,8 @@ namespace monaco {
                const std::size_t num_paths,
                std::shared_ptr<const monaco::path_generator> path_generator,
                std::shared_ptr<const monaco::path_evaluator> path_evaluator)
-        : num_paths(num_paths)
+        : execution_policy(execution_policy)
+        , num_paths(num_paths)
         , path_generator(std::move(path_generator))
         , path_evaluator(std::move(path_evaluator)) {
     }

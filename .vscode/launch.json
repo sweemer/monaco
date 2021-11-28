@@ -9,7 +9,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/build/linux-nvhpc-debug/monaco",
-      "args": ["100"],
+      "args": ["50000"],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],
@@ -22,7 +22,6 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "C/C++: g++-11 build active file",
       "miDebuggerPath": "/usr/bin/gdb"
     }
   ]
