@@ -7,18 +7,30 @@
             "hidden": true
         },
         {
+            "name": "linux-gcc-debug",
+            "inherits": "base",
+            "generator": "Unix Makefiles",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_CXX_COMPILER": "g++-11"
+            }
+        }
+        {
             "name": "linux-nvhpc-debug",
             "inherits": "base",
             "generator": "Unix Makefiles",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_CXX_COMPILER": "nvc++",
-                "CMAKE_CXX_FLAGS": "-stdpar=gpu -Wall",
-                "CMAKE_CXX_STANDARD": "17"
+                "CMAKE_CXX_FLAGS": "-stdpar=gpu"
             }
         }
     ],
     "buildPresets": [
+        {
+            "name": "linux-gcc-debug",
+            "configurePreset": "linux-gcc-debug"
+        },
         {
             "name": "linux-nvhpc-debug",
             "configurePreset": "linux-nvhpc-debug"
