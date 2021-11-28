@@ -88,27 +88,39 @@
     "buildPresets": [
         {
             "name": "linux-gcc-debug",
-            "configurePreset": "linux-gcc-debug"
+            "configurePreset": "linux-gcc-debug",
+            "verbose": true,
+            "jobs": 16
         },
         {
             "name": "linux-gcc-release",
-            "configurePreset": "linux-gcc-release"
+            "configurePreset": "linux-gcc-release",
+            "verbose": true,
+            "jobs": 16
         },
         {
             "name": "linux-nvhpc-gpu-debug",
-            "configurePreset": "linux-nvhpc-gpu-debug"
+            "configurePreset": "linux-nvhpc-gpu-debug",
+            "verbose": true,
+            "jobs": 16
         },
         {
             "name": "linux-nvhpc-gpu-release",
-            "configurePreset": "linux-nvhpc-gpu-release"
+            "configurePreset": "linux-nvhpc-gpu-release",
+            "verbose": true,
+            "jobs": 16
         },
         {
             "name": "linux-nvhpc-multicore-debug",
-            "configurePreset": "linux-nvhpc-multicore-debug"
+            "configurePreset": "linux-nvhpc-multicore-debug",
+            "verbose": true,
+            "jobs": 16
         },
         {
             "name": "linux-nvhpc-multicore-release",
-            "configurePreset": "linux-nvhpc-multicore-release"
+            "configurePreset": "linux-nvhpc-multicore-release",
+            "verbose": true,
+            "jobs": 16
         }
     ]
 }

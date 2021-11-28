@@ -16,7 +16,7 @@ namespace monaco {
     const float r;        // interest rate
     const float t;        // term in years
 
-    float cndf(float x) {
+    static float cndf(float x) {
       return std::erfc(-x / std::sqrt(float(2))) / float(2);
     }
 
@@ -30,14 +30,14 @@ namespace monaco {
         : sign(sign), s0(s0), sigma(sigma), k(k), r(r), t(t) {
     }
 
-    float calculate() {
+    float calculate() const {
       const auto d1 = (std::log(s0 / k) + (r + sigma * sigma / float(2)) * t) / (sigma * std::sqrt(t));
       const auto d2 = d1 - sigma * std::sqrt(t);
       return sign * s0 * cndf(sign * d1) - sign * std::exp(-r * t) * k * cndf(sign * d2);
     }
   };
 
-  class black_scholes_path_generator final : public monaco::path_generator {
+  class black_scholes_path_generator {
     const std::size_t num_steps;
     const float s0;
     const float sigma;
@@ -55,7 +55,7 @@ namespace monaco {
         : num_steps(num_steps), s0(s0), sigma(sigma), k(k), r(r), T(T) {
     }
 
-    const monaco::path generate() const final {
+    const monaco::path generate() const {
       std::random_device random_device;
       std::mt19937 generator(random_device());
       std::normal_distribution<float> gaussian(0, 1);
@@ -75,7 +75,7 @@ namespace monaco {
     }
   };
 
-  class european_call_path_evaluator final : public monaco::path_evaluator {
+  class european_call_path_evaluator {
     const float sign;
     const float k;
 
@@ -84,7 +84,7 @@ namespace monaco {
         : sign(sign), k(k) {
     }
 
-    float evaluate(const monaco::path& path) const final {
+    float evaluate(const monaco::path& path) const {
       return std::max(sign * (path.back().second - k), float(0));
     }
   };
@@ -123,12 +123,14 @@ int main(const int argc, const char** const argv) {
 
   for (const auto sign : signs) {
     std::cout << "-- sign = " << sign << std::endl;
-    auto path_generator = std::make_shared<monaco::black_scholes_path_generator>(num_steps, s0, sigma, k, r, t);
-    auto path_evaluator = std::make_shared<monaco::european_call_path_evaluator>(sign, k);
 
-    monaco::black_scholes_analytical analytical(sign, s0, sigma, k, r, t);
-    monaco::montecarlo sequential(std::execution::seq, num_paths, path_generator, path_evaluator);
-    monaco::montecarlo parallel(std::execution::par, num_paths, path_generator, path_evaluator);
+    // const monaco::black_scholes_path_generator path_generator(num_steps, s0, sigma, k, r, t);
+    // const monaco::european_call_path_evaluator path_evaluator(sign, k);
+    auto path_generator = std::make_unique<const monaco::black_scholes_path_generator>(num_steps, s0, sigma, k, r, t);
+    auto path_evaluator = std::make_unique<const monaco::european_call_path_evaluator>(sign, k);
+    const monaco::black_scholes_analytical analytical(sign, s0, sigma, k, r, t);
+    const monaco::montecarlo sequential(std::execution::seq, *path_generator, *path_evaluator, num_paths);
+    const monaco::montecarlo parallel(std::execution::par, *path_generator, *path_evaluator, num_paths);
 
     monaco::time_it("analytical solution    : ", [&analytical]() { return analytical.calculate(); });
     monaco::time_it("monte-carlo sequential : ", [&sequential]() { return sequential.calculate(); });
